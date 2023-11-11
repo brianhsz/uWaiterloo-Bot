@@ -58,7 +58,14 @@ void leaveHome(float dist){
     turn(1, 90);
 }
 
-void returnHome(float dist){
+void returnHome(float dist, int coord[2]){
+    turn(0, 180);
+    drive_forward(1, 40, dist*(coord[1]));
+    turn(1, 90);
+    drive_forward(1, 40, dist*(coord[0]));
+    turn(0, 90);
+    drive_forward(1, 40, dist);
+    turn(0, 180);
 
 }
 
@@ -69,8 +76,22 @@ void deliverFood(int del_arr[][2], float dist){
 
         leaveHome(dist);
         drive_forward(1, 40, dist*sideways);
-        turn_90(0);
+        turn(0, 90);
         drive_forward(1, 40, dist*vertical);
+
+        returnHome(dist, {sideways, vertical});
     }
     
+}
+
+int main(){
+
+    configureAllSensors();
+
+    while(!getButtonPress(buttonEnter)){}
+    while(getButtonPress(buttonEnter)){}
+
+    leaveHome()
+
+    deliverFood({{2, 2}, {1, 2}, {0, 1}})
 }
